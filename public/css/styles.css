@@ -6,6 +6,11 @@ body {
   padding: 0;
 }
 
+a.result {
+  color: #fff;
+  text-decoration: none;
+}
+
 header {
   background-color: #222;
   padding: 20px;
@@ -97,9 +102,4 @@ footer {
 
 footer p {
   margin: 0;
-}
-
-a.result {
-  color: #fff;
-  text-decoration: none;
 }
