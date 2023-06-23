@@ -70,7 +70,7 @@ h2 {
 .result:hover {
   background-color: white; /* Green */
   color: #333;
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
   /* filter:blur(1px); */
 }
 
