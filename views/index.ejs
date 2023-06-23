@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DSA Search Engine</title>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>DSA Search Engine</h1>
+    <form id="search-form" action="/search" method="get">
+      <input type="text" name = "q" placeholder="Search algorithms...">
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <main>
+    <h2>Search Results</h2>
+    <div class="search-results" id="search-results">
+      <!-- ... -->
+
+    <!-- Display search results here -->
+    <% if (results && results.length > 0) { %>
+      <% results.forEach(function(result) { %>
+        <a class="result" href="<%= result.link %>">
+          <h3><%= result.title %></h3>
+          <!-- <p><%= result.description %></p> -->
+        </a>
+      <% }); %>
+    <% } else { %>
+      <p>No results found.</p>
+    <% } %>
+    
+
+<!-- ... -->
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 DSA Search Engine. All rights reserved. Piyush Pise</p>
+  </footer>
+
+  <!-- <script src="js/script.js"></script> -->
+</body>
+</html>
