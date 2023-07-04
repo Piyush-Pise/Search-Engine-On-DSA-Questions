@@ -2,7 +2,10 @@
 DSA Search Engine
 
 ## Search Results:
+Search result on Binary Search:
 ![s5](https://github.com/Piyush-Pise/Search-Engine-On-DSA-Questions/assets/75115056/69935994-8994-49bb-b0ba-d0d068e1a579)
+
+Search result on Linked List:
 ![s6](https://github.com/Piyush-Pise/Search-Engine-On-DSA-Questions/assets/75115056/d5fc823e-7e08-4735-aca7-79a5cee8b43e)
 
 ## Description:
