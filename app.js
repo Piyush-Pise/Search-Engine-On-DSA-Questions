@@ -37,23 +37,23 @@ app.get('/search', (req, res) =>{
 })
 
 // Listen on port 3000
-app.listen(port, () => console.info('listening on port ${port}'))
+app.listen(port, () => console.info(`listening on port ${port}`))
 
 function PerformSearch(searchTerm)
 {
   const query = searchTerm.toLowerCase().split(' ');
   // console.log(query);
-  const queryVector = VectorizeQuery(query, Words)
+  const queryVector = VectorizedQuery(query, Words)
   // console.log(queryVector);
   const similarity = calculateSimilarity(queryVector, Vectorized_Documents);
   // console.log(similarity+'/n/n/n');
   const SortedDocumentIndex = calculateDocumentOrder(similarity);
   // console.log(SortedDocumentIndex);
-  const ProccessedResult = ProccessResult(SortedDocumentIndex, Title ,Links);
-  return ProccessedResult;
+  const ProcessedResult = ProcessResult(SortedDocumentIndex, Title ,Links);
+  return ProcessedResult;
 }
 
-function VectorizeQuery(query, words) {
+function VectorizedQuery(query, words) {
   const newVector = [];
 
   for (const word of words) {
@@ -109,7 +109,6 @@ function calculateSimilarity(queryVector, vectorizationMatrix) {
   return similarityMat;
 }
 
-
 function calculateDocumentOrder(similarity)
 {
   let similarityScoreDocumentDict = {};
@@ -145,7 +144,7 @@ function calculateDocumentOrder(similarity)
   return uniqueVector;
 }
 
-function ProccessResult(SortedDocumentIndex, Title ,Links)
+function ProcessResult(SortedDocumentIndex, Title ,Links)
 {
   var searchResults = []
   for(const index of SortedDocumentIndex)
