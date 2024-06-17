@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
-  <html lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSA Search Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA Search Engine</title>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="icon" href="https://assets.vercel.com/image/upload/front/favicon/vercel/favicon.ico" type="image/x-icon">
 </head>
 <body>
   <header>
     <h1>DSA Search Engine</h1>
     <form id="search-form" action="/search" method="get">
-      <input type="text" name = "q" placeholder="Search algorithms...">
+      <input type="text" name="q" placeholder="Search algorithms...">
       <button type="submit">Search</button>
     </form>
   </header>
@@ -21,20 +21,19 @@
     <div class="search-results" id="search-results">
       <!-- ... -->
 
-    <!-- Display search results here -->
-    <% if (results && results.length > 0) { %>
-      <% results.forEach(function(result) { %>
-        <a class="result" href="<%= result.link %>" target="_blank">
-          <h3><%= result.title %></h3>
-          <!-- <p><%= result.description %></p> -->
-        </a>
-      <% }); %>
-    <% } else { %>
-      <p>No results found.</p>
-    <% } %>
-    
+      <!-- Display search results here -->
+      <% if (results && results.length > 0) { %>
+        <% results.forEach(function(result) { %>
+          <a class="result" href="<%= result.link %>" target="_blank">
+            <h3><%= result.title %></h3>
+            <!-- <p><%= result.description %></p> -->
+          </a>
+        <% }); %>
+      <% } else { %>
+        <p>No results found.</p>
+      <% } %>
 
-<!-- ... -->
+      <!-- ... -->
 
     </div>
   </main>
