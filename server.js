@@ -1,55 +1,56 @@
 // Imports
-const express = require('express')
-const fs = require('fs');
+const express = require("express");
+const fs = require("fs");
 
-const app = express()
-const port = process.env.PORT || 3000
+const app = express();
+const port = process.env.PORT || 3000;
+const path = require('path');
 
-app.set('view engine', 'ejs')
+app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
 
 // Static files
-app.use(express.static('public'))
-app.use('/css', express.static(__dirname + '/public/css'))
-app.use('/js', express.static(__dirname + '/public/js'))
-app.use('/img', express.static(__dirname + '/public/img'))
+app.use(express.static("public"));
+app.use("/css", express.static(__dirname + "/public/css"));
+app.use("/js", express.static(__dirname + "/public/js"));
+app.use("/img", express.static(__dirname + "/public/img"));
 
-const tf_idf_filePath = __dirname + '/txt/Vectorized_Documents.txt';
-const Words_filePath = __dirname + '/txt/Words.txt';
-const Title_filePath = __dirname + '/txt/Title.txt';
-const Links_filePath = __dirname + '/txt/Links.txt';
+const tf_idf_filePath = __dirname + "/txt/Vectorized_Documents.txt";
+const Words_filePath = __dirname + "/txt/Words.txt";
+const Title_filePath = __dirname + "/txt/Title.txt";
+const Links_filePath = __dirname + "/txt/Links.txt";
 
-const Vectorized_Documents = Load_Vectorized_Documents(tf_idf_filePath)
-const Words = LoadFile(Words_filePath)
-const Title = LoadFile(Title_filePath)
-const Links = LoadFile(Links_filePath)
+const Vectorized_Documents = Load_Vectorized_Documents(tf_idf_filePath);
+const Words = LoadFile(Words_filePath);
+const Title = LoadFile(Title_filePath);
+const Links = LoadFile(Links_filePath);
 
-app.get('/', (req, res) =>{
-    const results = [];
-    res.render('index',{results})
-})
+app.get("/", (req, res) => {
+  const results = [];
+  res.render("index", { results });
+});
 
-app.get('/search', (req, res) =>{
-    const searchTerm = req.query.q;
-    // console.log(searchTerm);
-    const results = PerformSearch(searchTerm);
-    // console.info(results);
-    res.render('index', {results})
-})
+app.get("/search", (req, res) => {
+  const searchTerm = req.query.q;
+  // console.log(searchTerm);
+  const results = PerformSearch(searchTerm);
+  // console.info(results);
+  res.render("index", { results });
+});
 
 // Listen on port 3000
-app.listen(port, () => console.info(`listening on port ${port}`))
+app.listen(port, () => console.info(`listening on port ${port}`));
 
-function PerformSearch(searchTerm)
-{
-  const query = searchTerm.toLowerCase().split(' ');
+function PerformSearch(searchTerm) {
+  const query = searchTerm.toLowerCase().split(" ");
   // console.log(query);
-  const queryVector = VectorizedQuery(query, Words)
+  const queryVector = VectorizedQuery(query, Words);
   // console.log(queryVector);
   const similarity = calculateSimilarity(queryVector, Vectorized_Documents);
   // console.log(similarity+'/n/n/n');
   const SortedDocumentIndex = calculateDocumentOrder(similarity);
   // console.log(SortedDocumentIndex);
-  const ProcessedResult = ProcessResult(SortedDocumentIndex, Title ,Links);
+  const ProcessedResult = ProcessResult(SortedDocumentIndex, Title, Links);
   return ProcessedResult;
 }
 
@@ -70,7 +71,7 @@ function VectorizedQuery(query, words) {
       newVector.push(0);
     }
   }
-  
+
   return newVector;
 }
 
@@ -97,8 +98,7 @@ function calculateSimilarity(queryVector, vectorizationMatrix) {
     const magnitude1 = magnitude(queryVector);
     const magnitude2 = magnitude(vector);
 
-    if (magnitude1 === 0 || magnitude2 === 0)
-    {
+    if (magnitude1 === 0 || magnitude2 === 0) {
       similarityMat.push(0);
       continue;
     }
@@ -109,8 +109,7 @@ function calculateSimilarity(queryVector, vectorizationMatrix) {
   return similarityMat;
 }
 
-function calculateDocumentOrder(similarity)
-{
+function calculateDocumentOrder(similarity) {
   let similarityScoreDocumentDict = {};
   let index = 1;
   for (const score of similarity) {
@@ -127,8 +126,7 @@ function calculateDocumentOrder(similarity)
   const SortedDocumentIndex = [];
   for (const [key, value] of entries) {
     // sortedDictionary[value] = key;
-    if(value > 0.0)
-    {
+    if (value > 0.0) {
       SortedDocumentIndex.push(key);
     }
   }
@@ -136,33 +134,29 @@ function calculateDocumentOrder(similarity)
   const uniqueVector = [];
 
   for (const num of SortedDocumentIndex) {
-    if (!uniqueVector.includes(num))
-    {
+    if (!uniqueVector.includes(num)) {
       uniqueVector.push(num);
     }
   }
   return uniqueVector;
 }
 
-function ProcessResult(SortedDocumentIndex, Title ,Links)
-{
-  var searchResults = []
-  for(const index of SortedDocumentIndex)
-  {
-    var result = { title: Title[index-1], link: Links[index-1] };
+function ProcessResult(SortedDocumentIndex, Title, Links) {
+  var searchResults = [];
+  for (const index of SortedDocumentIndex) {
+    var result = { title: Title[index - 1], link: Links[index - 1] };
     searchResults.push(result);
   }
   return searchResults;
 }
 
-function Load_Vectorized_Documents(tf_idf_filePath)
-{
+function Load_Vectorized_Documents(tf_idf_filePath) {
   const matrix = [];
-  const rows = fs.readFileSync(tf_idf_filePath, 'utf8').split('\n');
+  const rows = fs.readFileSync(tf_idf_filePath, "utf8").split("\n");
   // const rows = data.split('\n');
-  
+
   for (let row of rows) {
-    const values = row.trim().split(' ').map(parseFloat);
+    const values = row.trim().split(" ").map(parseFloat);
     matrix.push(values);
   }
   return matrix;
@@ -170,7 +164,7 @@ function Load_Vectorized_Documents(tf_idf_filePath)
 
 function LoadFile(filename) {
   const wordVector = [];
-  const lines = fs.readFileSync(filename, 'utf8').split('\n');
+  const lines = fs.readFileSync(filename, "utf8").split("\n");
 
   for (const line of lines) {
     const word = line.trim();
